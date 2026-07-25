@@ -11,6 +11,10 @@
 
 **A comprehensive security toolkit combining phishing detection and vulnerability scanning capabilities.**
 
+![Linux](https://img.shields.io/badge/Linux-Kali-557C94?style=for-the-badge&logo=linux&logoColor=white)
+![macOS](https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white)
+
 [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/aditya226-sharma/cybershield)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/aditya-sharma90)
 [![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://adii-sharma.vercel.app/)
@@ -22,6 +26,7 @@
 ## 📋 Table of Contents
 
 - [Features](#-features)
+- [Platform Support](#-platform-support)
 - [Installation](#-installation)
 - [Usage](#-usage)
 - [Web Dashboard](#-web-dashboard)
@@ -42,6 +47,7 @@
 - **SSL Certificate Validation** - Verifies HTTPS implementation
 - **Keyword Detection** - Flags phishing-related keywords
 - **Redirect Detection** - Identifies suspicious redirects
+- **Homograph Attack Detection** - Detects Unicode character attacks
 - **Heuristic Scoring** - AI-powered risk assessment
 
 ### 🔍 Vulnerability Scanner
@@ -51,6 +57,7 @@
 - **SSL/TLS Analysis** - Checks certificate validity and configuration
 - **Information Disclosure** - Detects exposed sensitive data
 - **CORS Misconfiguration** - Identifies cross-origin issues
+- **Sensitive File Detection** - Checks for exposed configuration files
 
 ### 🖥️ Web Dashboard
 - **Modern UI** - Sleek dark mode interface
@@ -62,6 +69,21 @@
 - **Rich Terminal Output** - Beautiful console formatting
 - **Multiple Scan Modes** - Full, phishing-only, vulnerability-only
 - **Batch Processing** - Scan multiple URLs at once
+- **Cross-Platform** - Works on Linux, macOS, Windows
+
+---
+
+## 🖥️ Platform Support
+
+| Platform | Status | Notes |
+|----------|--------|-------|
+| **Linux (Kali)** | ✅ Full Support | Recommended for security professionals |
+| **Linux (Ubuntu/Debian)** | ✅ Full Support | Tested on Ubuntu 20.04+ |
+| **Linux (CentOS/RHEL)** | ✅ Full Support | Uses yum for dependencies |
+| **Linux (Arch)** | ✅ Full Support | Uses pacman |
+| **macOS** | ✅ Full Support | Requires Xcode Command Line Tools |
+| **Windows 10/11** | ✅ Full Support | PowerShell or CMD |
+| **Windows Server** | ✅ Full Support | Tested on Server 2019+ |
 
 ---
 
@@ -71,26 +93,92 @@
 - Python 3.8 or higher
 - pip package manager
 
-### Quick Install
+---
+
+### 🐧 Linux (Kali/Ubuntu/Debian)
 
 ```bash
-# Clone the repository
-git clone https://github.com/aditya226-sharma/cybershield.git
+# Quick Install (One-liner)
+curl -sSL https://raw.githubusercontent.com/aditya226-sharma/cybershield/main/install.sh | bash
 
-# Navigate to project directory
+# Or Manual Install
+git clone https://github.com/aditya226-sharma/cybershield.git
+cd cybershield
+chmod +x install.sh
+./install.sh
+```
+
+**For Kali Linux (as root):**
+```bash
+sudo apt update
+sudo apt install python3-pip python3-venv -y
+pip3 install -r requirements.txt
+pip3 install -e .
+```
+
+---
+
+### 🍎 macOS
+
+```bash
+# Install Python (if not installed)
+brew install python
+
+# Clone and install
+git clone https://github.com/aditya226-sharma/cybershield.git
+cd cybershield
+pip3 install -r requirements.txt
+pip3 install -e .
+```
+
+**Or using the install script:**
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+---
+
+### 🪟 Windows
+
+**Option 1: Using install.bat (Recommended)**
+```cmd
+git clone https://github.com/aditya226-sharma/cybershield.git
+cd cybershield
+install.bat
+```
+
+**Option 2: Using PowerShell**
+```powershell
+# Clone repository
+git clone https://github.com/aditya226-sharma/cybershield.git
 cd cybershield
 
 # Install dependencies
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
-# Install in development mode
-pip install -e .
+# Install package
+python -m pip install -e .
 ```
 
-### Using pip
+**Option 3: Using Command Prompt**
+```cmd
+git clone https://github.com/aditya226-sharma/cybershield.git
+cd cybershield
+python -m pip install -r requirements.txt
+python -m pip install -e .
+```
+
+---
+
+### 🐳 Docker (All Platforms)
 
 ```bash
-pip install cybershield
+# Build image
+docker build -t cybershield .
+
+# Run container
+docker run -it cybershield full https://example.com
 ```
 
 ---
@@ -111,12 +199,19 @@ cybershield vuln https://example.com
 
 # Start web dashboard
 cybershield serve --port 5000
+
+# Check system compatibility
+cybershield check
 ```
 
 ### Python API
 
 ```python
-from cybershield import PhishingDetector, VulnerabilityScanner
+from cybershield import PhishingDetector, VulnerabilityScanner, get_platform
+
+# Check platform
+platform = get_platform()
+platform.print_info()
 
 # Phishing Detection
 detector = PhishingDetector()
@@ -133,6 +228,24 @@ results = scanner.scan_target("https://example.com")
 print(f"Vulnerabilities Found: {results['total_vulnerabilities']}")
 for finding in results['findings']:
     print(f"  - {finding['title']}: {finding['severity']}")
+```
+
+### Batch Scanning
+
+```python
+from cybershield import PhishingDetector
+
+detector = PhishingDetector()
+
+urls = [
+    "https://google.com",
+    "https://github.com",
+    "https://example.com"
+]
+
+results = detector.batch_scan(urls)
+for result in results:
+    print(f"{result['url']}: {result['risk_level']}")
 ```
 
 ---
@@ -152,6 +265,7 @@ Then open your browser and navigate to `http://localhost:5000`
 - 📊 **Risk Meter** - Visual risk indicator
 - 🔍 **Detailed Findings** - Complete vulnerability list
 - 📈 **Statistics** - Scan history and trends
+- 🌙 **Dark Mode** - Easy on the eyes
 
 ---
 
@@ -186,7 +300,8 @@ cybershield/
 │   ├── __main__.py          # CLI entry point
 │   ├── phishing.py          # Phishing detection module
 │   ├── vuln_scanner.py      # Vulnerability scanner module
-│   └── dashboard.py         # Flask web application
+│   ├── dashboard.py         # Flask web application
+│   └── platform.py          # Cross-platform utilities
 ├── templates/
 │   └── index.html           # Dashboard HTML template
 ├── static/
@@ -194,6 +309,8 @@ cybershield/
 │   └── js/main.js           # Dashboard JavaScript
 ├── tests/
 │   └── test_modules.py      # Unit tests
+├── install.sh               # Linux/macOS installer
+├── install.bat              # Windows installer
 ├── setup.py                 # Package setup
 ├── requirements.txt         # Dependencies
 └── README.md                # Documentation
@@ -238,6 +355,25 @@ Detailed Findings:
   1. Missing Content-Security-Policy Header
   2. Missing X-Frame-Options Header
   3. Server Header Information Disclosure
+```
+
+### System Check Output
+
+```
+==================================================
+SYSTEM CHECK
+==================================================
+Platform: Linux
+Python: 3.11.0
+Architecture: x86_64
+[OK] requests
+[OK] beautifulsoup4
+[OK] rich
+[OK] tldextract
+[OK] python-whois
+==================================================
+
+All dependencies satisfied!
 ```
 
 ---

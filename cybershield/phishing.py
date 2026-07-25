@@ -2,20 +2,21 @@
 Phishing Detection Module
 =========================
 
-Detects phishing URLs using multiple analysis techniques:
-- URL structure analysis
-- Domain reputation checking
-- SSL certificate validation
-- Content analysis
-- Heuristic scoring
+Cross-platform phishing URL detection with support for
+Linux (Kali), macOS, and Windows.
 """
 
 import re
 import ssl
 import socket
+import platform
 from urllib.parse import urlparse
 from datetime import datetime
 from typing import Dict, List, Tuple, Optional
+import warnings
+
+# Suppress SSL warnings for scanning
+warnings.filterwarnings('ignore', message='Unverified HTTPS request')
 
 try:
     import whois
@@ -27,9 +28,15 @@ try:
 except ImportError:
     tldextract = None
 
+try:
+    import requests
+    requests.packages.urllib3.disable_warnings()
+except ImportError:
+    requests = None
+
 
 class PhishingDetector:
-    """Advanced phishing URL detection engine."""
+    """Cross-platform phishing URL detection engine."""
 
     def __init__(self):
         self.suspicious_keywords = [
@@ -38,17 +45,20 @@ class PhishingDetector:
             "unusual", "activity", "alert", "notification", "urgent",
             "paypal", "apple", "microsoft", "google", "amazon", "netflix",
             "facebook", "instagram", "twitter", "linkedin", "dropbox",
+            "wallet", "crypto", "bitcoin", "metamask", "coinbase",
+            "social", "security", "support", "help", "service",
         ]
 
         self.suspicious_tlds = [
             ".tk", ".ml", ".ga", ".cf", ".gq", ".xyz", ".top", ".work",
             ".click", ".link", ".online", ".site", ".tech", ".store",
+            ".buzz", ".club", ".vip", ".monster", ".surf", ".rest",
         ]
 
         self.legitimate_domains = [
             "google.com", "microsoft.com", "apple.com", "amazon.com",
             "facebook.com", "github.com", "linkedin.com", "twitter.com",
-            "netflix.com", "paypal.com", "dropbox.com", "github.io",
+            "netflix.com", "paypal.com", "dropbox.com",
         ]
 
     def analyze_url(self, url: str) -> Dict:
@@ -63,17 +73,29 @@ class PhishingDetector:
         """
         results = {
             "url": url,
+            "timestamp": datetime.now().isoformat(),
+            "platform": platform.system(),
             "risk_score": 0,
             "risk_level": "LOW",
             "is_phishing": False,
             "checks": [],
             "warnings": [],
-            "details": {}
+            "details": {},
+            "error": None
         }
 
         try:
+            # Normalize URL
+            if not url.startswith(("http://", "https://")):
+                url = "https://" + url
+                results["url"] = url
+
             parsed = urlparse(url)
             domain = parsed.netloc or parsed.path
+            
+            # Remove port if present
+            if ":" in domain:
+                domain = domain.split(":")[0]
             
             results["checks"] = [
                 self._check_url_length(url),
@@ -85,6 +107,7 @@ class PhishingDetector:
                 self._check_https(url),
                 self._check_domain_age(domain),
                 self._check_redirects(url),
+                self._check_homograph(domain),
             ]
 
             for check in results["checks"]:
@@ -99,6 +122,7 @@ class PhishingDetector:
 
         except Exception as e:
             results["error"] = str(e)
+            results["risk_level"] = "UNKNOWN"
 
         return results
 
@@ -110,7 +134,7 @@ class PhishingDetector:
             score += 10
         if len(url) > 100:
             score += 10
-            warning = "URL is unusually long"
+            warning = "URL is unusually long (potential obfuscation)"
         return {"name": "URL Length", "score": score, "warning": warning}
 
     def _check_special_characters(self, url: str) -> Dict:
@@ -120,7 +144,7 @@ class PhishingDetector:
         
         if "@" in url:
             score += 20
-            warning = "URL contains @ symbol (possible obfuscation)"
+            warning = "URL contains @ symbol (possible credential theft)"
         if url.count("-") > 3:
             score += 10
         if url.count(".") > 4:
@@ -140,7 +164,7 @@ class PhishingDetector:
         found_keywords = [kw for kw in self.suspicious_keywords if kw in url_lower]
         if found_keywords:
             score = min(len(found_keywords) * 5, 25)
-            warning = f"Suspicious keywords found: {', '.join(found_keywords[:3])}"
+            warning = f"Suspicious keywords: {', '.join(found_keywords[:3])}"
             
         return {"name": "Keywords", "score": score, "warning": warning}
 
@@ -162,10 +186,16 @@ class PhishingDetector:
         score = 0
         warning = None
         
-        ip_pattern = r'^(\d{1,3}\.){3}\d{1,3}$'
-        if re.match(ip_pattern, domain):
-            score = 25
-            warning = "Domain uses IP address instead of name"
+        ip_patterns = [
+            r'^(\d{1,3}\.){3}\d{1,3}$',  # IPv4
+            r'^[0-9a-f:]+$',  # IPv6
+        ]
+        
+        for pattern in ip_patterns:
+            if re.match(pattern, domain):
+                score = 25
+                warning = "Domain uses IP address instead of hostname"
+                break
             
         return {"name": "IP Address", "score": score, "warning": warning}
 
@@ -201,12 +231,18 @@ class PhishingDetector:
             try:
                 w = whois.whois(domain)
                 if w.creation_date:
-                    age = (datetime.now() - w.creation_date).days
-                    if age < 30:
-                        score = 20
-                        warning = f"Domain is very new ({age} days old)"
-                    elif age < 180:
-                        score = 10
+                    if isinstance(w.creation_date, list):
+                        creation_date = w.creation_date[0]
+                    else:
+                        creation_date = w.creation_date
+                    
+                    if isinstance(creation_date, datetime):
+                        age = (datetime.now() - creation_date).days
+                        if age < 30:
+                            score = 20
+                            warning = f"Domain is very new ({age} days old)"
+                        elif age < 180:
+                            score = 10
             except Exception:
                 pass
                 
@@ -217,16 +253,28 @@ class PhishingDetector:
         score = 0
         warning = None
         
-        try:
-            import requests
-            resp = requests.head(url, allow_redirects=False, timeout=5)
-            if resp.status_code in [301, 302, 303, 307, 308]:
-                score = 15
-                warning = "URL redirects to another location"
-        except Exception:
-            pass
+        if requests:
+            try:
+                resp = requests.head(url, allow_redirects=False, timeout=5, verify=False)
+                if resp.status_code in [301, 302, 303, 307, 308]:
+                    score = 15
+                    warning = "URL redirects to another location"
+            except Exception:
+                pass
             
         return {"name": "Redirects", "score": score, "warning": warning}
+
+    def _check_homograph(self, domain: str) -> Dict:
+        """Check for homograph attacks (Unicode characters)."""
+        score = 0
+        warning = None
+        
+        # Check for non-ASCII characters
+        if any(ord(c) > 127 for c in domain):
+            score = 30
+            warning = "Domain contains non-ASCII characters (possible homograph attack)"
+            
+        return {"name": "Homograph", "score": score, "warning": warning}
 
     def _calculate_risk_level(self, score: int) -> str:
         """Calculate risk level from score."""
@@ -251,7 +299,8 @@ class PhishingDetector:
                 details["registrar"] = w.registrar
                 details["creation_date"] = str(w.creation_date)
                 details["expiration_date"] = str(w.expiration_date)
-                details["name_servers"] = w.name_servers
+                if w.name_servers:
+                    details["name_servers"] = list(w.name_servers)[:3]
             except Exception:
                 pass
                 

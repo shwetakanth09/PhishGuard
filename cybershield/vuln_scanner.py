@@ -2,33 +2,36 @@
 Vulnerability Scanner Module
 ============================
 
-Comprehensive web vulnerability scanner checking for:
-- XSS (Cross-Site Scripting)
-- SQL Injection
-- Security Headers
-- SSL/TLS Issues
-- Open Ports
-- Directory Traversal
-- Information Disclosure
+Cross-platform web vulnerability scanner with support for
+Linux (Kali), macOS, and Windows.
 """
 
 import re
 import ssl
 import socket
+import platform
+import warnings
 from urllib.parse import urljoin, urlparse
 from typing import Dict, List, Optional
 from datetime import datetime
 
+# Suppress SSL warnings
+warnings.filterwarnings('ignore', message='Unverified HTTPS request')
+
 try:
     import requests
-    from bs4 import BeautifulSoup
+    requests.packages.urllib3.disable_warnings()
 except ImportError:
     requests = None
+
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
     BeautifulSoup = None
 
 
 class VulnerabilityScanner:
-    """Advanced web vulnerability scanner."""
+    """Cross-platform web vulnerability scanner."""
 
     def __init__(self):
         self.xss_payloads = [
@@ -77,6 +80,7 @@ class VulnerabilityScanner:
         results = {
             "url": url,
             "timestamp": datetime.now().isoformat(),
+            "platform": platform.system(),
             "total_vulnerabilities": 0,
             "vulnerability_breakdown": {
                 "critical": 0,
@@ -88,10 +92,16 @@ class VulnerabilityScanner:
             "findings": [],
             "security_headers": {},
             "ssl_info": {},
-            "summary": ""
+            "summary": "",
+            "error": None
         }
 
         try:
+            # Normalize URL
+            if not url.startswith(("http://", "https://")):
+                url = "https://" + url
+                results["url"] = url
+
             findings = []
             
             findings.extend(self._check_security_headers(url))
@@ -120,23 +130,25 @@ class VulnerabilityScanner:
         """Check for missing security headers."""
         findings = []
         
-        if requests:
-            try:
-                resp = requests.get(url, timeout=10, verify=False)
-                headers = resp.headers
-                
-                for header in self.security_headers:
-                    if header not in headers:
-                        findings.append({
-                            "type": "Missing Security Header",
-                            "severity": "medium",
-                            "title": f"Missing {header}",
-                            "description": f"The {header} header is not set",
-                            "recommendation": f"Add {header} header to improve security",
-                            "url": url
-                        })
-            except Exception:
-                pass
+        if not requests:
+            return findings
+            
+        try:
+            resp = requests.get(url, timeout=10, verify=False)
+            headers = resp.headers
+            
+            for header in self.security_headers:
+                if header not in headers:
+                    findings.append({
+                        "type": "Missing Security Header",
+                        "severity": "medium",
+                        "title": f"Missing {header}",
+                        "description": f"The {header} header is not set",
+                        "recommendation": f"Add {header} header to improve security",
+                        "url": url
+                    })
+        except Exception:
+            pass
                 
         return findings
 
@@ -148,6 +160,10 @@ class VulnerabilityScanner:
             try:
                 hostname = urlparse(url).netloc
                 port = 443
+                
+                # Remove port if present
+                if ":" in hostname:
+                    hostname = hostname.split(":")[0]
                 
                 ctx = ssl.create_default_context()
                 with ctx.wrap_socket(socket.socket(), server_hostname=hostname) as s:
@@ -205,40 +221,42 @@ class VulnerabilityScanner:
         """Test for XSS vulnerabilities."""
         findings = []
         
-        if requests and BeautifulSoup:
-            try:
-                resp = requests.get(url, timeout=10)
-                soup = BeautifulSoup(resp.text, 'html.parser')
-                
-                forms = soup.find_all('form')
-                for form in forms[:3]:
-                    action = form.get('action', '')
-                    if action:
-                        test_url = urljoin(url, action)
-                    else:
-                        test_url = url
-                        
-                    inputs = form.find_all('input')
-                    for payload in self.xss_payloads[:2]:
-                        data = {inp.get('name', 'test'): payload for inp in inputs if inp.get('name')}
-                        if data:
-                            try:
-                                test_resp = requests.post(test_url, data=data, timeout=5)
-                                if payload in test_resp.text:
-                                    findings.append({
-                                        "type": "XSS Vulnerability",
-                                        "severity": "high",
-                                        "title": "Reflected XSS Found",
-                                        "description": f"Payload reflected in response",
-                                        "recommendation": "Implement input validation and output encoding",
-                                        "url": test_url,
-                                        "payload": payload
-                                    })
-                                    break
-                            except Exception:
-                                pass
-            except Exception:
-                pass
+        if not requests or not BeautifulSoup:
+            return findings
+        
+        try:
+            resp = requests.get(url, timeout=10, verify=False)
+            soup = BeautifulSoup(resp.text, 'html.parser')
+            
+            forms = soup.find_all('form')
+            for form in forms[:3]:
+                action = form.get('action', '')
+                if action:
+                    test_url = urljoin(url, action)
+                else:
+                    test_url = url
+                    
+                inputs = form.find_all('input')
+                for payload in self.xss_payloads[:2]:
+                    data = {inp.get('name', 'test'): payload for inp in inputs if inp.get('name')}
+                    if data:
+                        try:
+                            test_resp = requests.post(test_url, data=data, timeout=5, verify=False)
+                            if payload in test_resp.text:
+                                findings.append({
+                                    "type": "XSS Vulnerability",
+                                    "severity": "high",
+                                    "title": "Reflected XSS Found",
+                                    "description": f"Payload reflected in response",
+                                    "recommendation": "Implement input validation and output encoding",
+                                    "url": test_url,
+                                    "payload": payload
+                                })
+                                break
+                        except Exception:
+                            pass
+        except Exception:
+            pass
                 
         return findings
 
@@ -246,33 +264,35 @@ class VulnerabilityScanner:
         """Test for SQL injection vulnerabilities."""
         findings = []
         
-        if requests:
-            try:
-                for payload in self.sqli_payloads[:3]:
-                    test_url = f"{url}?id={payload}"
-                    try:
-                        resp = requests.get(test_url, timeout=5)
-                        errors = [
-                            "sql syntax", "mysql_fetch", "ORA-", "PostgreSQL",
-                            "SQLite", "Microsoft OLE DB", "ODBC SQL Server",
-                            "unclosed quotation mark"
-                        ]
-                        for error in errors:
-                            if error.lower() in resp.text.lower():
-                                findings.append({
-                                    "type": "SQL Injection",
-                                    "severity": "critical",
-                                    "title": "Potential SQL Injection",
-                                    "description": f"Database error message detected",
-                                    "recommendation": "Use parameterized queries and input validation",
-                                    "url": url,
-                                    "payload": payload
-                                })
-                                break
-                    except Exception:
-                        pass
-            except Exception:
-                pass
+        if not requests:
+            return findings
+        
+        try:
+            for payload in self.sqli_payloads[:3]:
+                test_url = f"{url}?id={payload}"
+                try:
+                    resp = requests.get(test_url, timeout=5, verify=False)
+                    errors = [
+                        "sql syntax", "mysql_fetch", "ORA-", "PostgreSQL",
+                        "SQLite", "Microsoft OLE DB", "ODBC SQL Server",
+                        "unclosed quotation mark", "mysql_num_rows"
+                    ]
+                    for error in errors:
+                        if error.lower() in resp.text.lower():
+                            findings.append({
+                                "type": "SQL Injection",
+                                "severity": "critical",
+                                "title": "Potential SQL Injection",
+                                "description": f"Database error message detected",
+                                "recommendation": "Use parameterized queries and input validation",
+                                "url": url,
+                                "payload": payload
+                            })
+                            break
+                except Exception:
+                    pass
+        except Exception:
+            pass
                 
         return findings
 
@@ -280,41 +300,43 @@ class VulnerabilityScanner:
         """Check for information disclosure."""
         findings = []
         
-        if requests:
-            try:
-                resp = requests.get(url, timeout=10)
-                
-                headers_to_check = ['Server', 'X-Powered-By', 'X-AspNet-Version', 'X-AspNetMvc-Version']
-                for header in headers_to_check:
-                    if header in resp.headers:
-                        findings.append({
-                            "type": "Information Disclosure",
-                            "severity": "low",
-                            "title": f"{header} Header Revealed",
-                            "description": f"Value: {resp.headers[header]}",
-                            "recommendation": f"Remove or obscure {header} header",
-                            "url": url
-                        })
-                        
-                patterns = [
-                    (r'(?:password|passwd|pwd)\s*[:=]\s*["\']?[\w@#$%^&*]+', "Password in HTML"),
-                    (r'(?:api[_-]?key|apikey)\s*[:=]\s*["\']?[\w-]+', "API Key in HTML"),
-                    (r'(?:secret|token)\s*[:=]\s*["\']?[\w-]+', "Secret/Token in HTML"),
-                ]
-                
-                for pattern, title in patterns:
-                    if re.search(pattern, resp.text, re.IGNORECASE):
-                        findings.append({
-                            "type": "Information Disclosure",
-                            "severity": "high",
-                            "title": title,
-                            "description": "Sensitive information exposed in HTML",
-                            "recommendation": "Remove sensitive data from HTML output",
-                            "url": url
-                        })
-                        
-            except Exception:
-                pass
+        if not requests:
+            return findings
+        
+        try:
+            resp = requests.get(url, timeout=10, verify=False)
+            
+            headers_to_check = ['Server', 'X-Powered-By', 'X-AspNet-Version', 'X-AspNetMvc-Version']
+            for header in headers_to_check:
+                if header in resp.headers:
+                    findings.append({
+                        "type": "Information Disclosure",
+                        "severity": "low",
+                        "title": f"{header} Header Revealed",
+                        "description": f"Value: {resp.headers[header]}",
+                        "recommendation": f"Remove or obscure {header} header",
+                        "url": url
+                    })
+                    
+            patterns = [
+                (r'(?:password|passwd|pwd)\s*[:=]\s*["\']?[\w@#$%^&*]+', "Password in HTML"),
+                (r'(?:api[_-]?key|apikey)\s*[:=]\s*["\']?[\w-]+', "API Key in HTML"),
+                (r'(?:secret|token)\s*[:=]\s*["\']?[\w-]+', "Secret/Token in HTML"),
+            ]
+            
+            for pattern, title in patterns:
+                if re.search(pattern, resp.text, re.IGNORECASE):
+                    findings.append({
+                        "type": "Information Disclosure",
+                        "severity": "high",
+                        "title": title,
+                        "description": "Sensitive information exposed in HTML",
+                        "recommendation": "Remove sensitive data from HTML output",
+                        "url": url
+                    })
+                    
+        except Exception:
+            pass
                 
         return findings
 
@@ -325,26 +347,29 @@ class VulnerabilityScanner:
         sensitive_files = [
             '/robots.txt', '/sitemap.xml', '/.env', '/.git/config',
             '/wp-admin/', '/phpinfo.php', '/server-status',
-            '/.htaccess', '/config.php', '/web.config'
+            '/.htaccess', '/config.php', '/web.config',
+            '/.git/HEAD', '/backup/', '/database.sql'
         ]
         
-        if requests:
-            for file_path in sensitive_files:
-                try:
-                    test_url = urljoin(url, file_path)
-                    resp = requests.get(test_url, timeout=5, allow_redirects=False)
-                    if resp.status_code == 200:
-                        severity = "info" if file_path in ['/robots.txt', '/sitemap.xml'] else "medium"
-                        findings.append({
-                            "type": "Information Disclosure",
-                            "severity": severity,
-                            "title": f"Sensitive File Accessible: {file_path}",
-                            "description": f"{file_path} is publicly accessible",
-                            "recommendation": f"Restrict access to {file_path}",
-                            "url": test_url
-                        })
-                except Exception:
-                    pass
+        if not requests:
+            return findings
+            
+        for file_path in sensitive_files:
+            try:
+                test_url = urljoin(url, file_path)
+                resp = requests.get(test_url, timeout=5, allow_redirects=False, verify=False)
+                if resp.status_code == 200:
+                    severity = "info" if file_path in ['/robots.txt', '/sitemap.xml'] else "medium"
+                    findings.append({
+                        "type": "Information Disclosure",
+                        "severity": severity,
+                        "title": f"Sensitive File Accessible: {file_path}",
+                        "description": f"{file_path} is publicly accessible",
+                        "recommendation": f"Restrict access to {file_path}",
+                        "url": test_url
+                    })
+            except Exception:
+                pass
                     
         return findings
 
@@ -352,24 +377,26 @@ class VulnerabilityScanner:
         """Check CORS configuration."""
         findings = []
         
-        if requests:
-            try:
-                headers = {'Origin': 'https://evil.com'}
-                resp = requests.get(url, headers=headers, timeout=10)
-                
-                if 'Access-Control-Allow-Origin' in resp.headers:
-                    acao = resp.headers['Access-Control-Allow-Origin']
-                    if acao == '*' or acao == 'https://evil.com':
-                        findings.append({
-                            "type": "CORS Misconfiguration",
-                            "severity": "medium",
-                            "title": "Overly Permissive CORS Policy",
-                            "description": f"Access-Control-Allow-Origin: {acao}",
-                            "recommendation": "Restrict CORS to trusted origins",
-                            "url": url
-                        })
-            except Exception:
-                pass
+        if not requests:
+            return findings
+        
+        try:
+            headers = {'Origin': 'https://evil.com'}
+            resp = requests.get(url, headers=headers, timeout=10, verify=False)
+            
+            if 'Access-Control-Allow-Origin' in resp.headers:
+                acao = resp.headers['Access-Control-Allow-Origin']
+                if acao == '*' or acao == 'https://evil.com':
+                    findings.append({
+                        "type": "CORS Misconfiguration",
+                        "severity": "medium",
+                        "title": "Overly Permissive CORS Policy",
+                        "description": f"Access-Control-Allow-Origin: {acao}",
+                        "recommendation": "Restrict CORS to trusted origins",
+                        "url": url
+                    })
+        except Exception:
+            pass
                 
         return findings
 
@@ -378,16 +405,18 @@ class VulnerabilityScanner:
         headers_present = {}
         headers_missing = []
         
-        if requests:
-            try:
-                resp = requests.get(url, timeout=10)
-                for header in self.security_headers:
-                    if header in resp.headers:
-                        headers_present[header] = resp.headers[header]
-                    else:
-                        headers_missing.append(header)
-            except Exception:
-                pass
+        if not requests:
+            return {"present": {}, "missing": self.security_headers, "score": 0, "total": len(self.security_headers)}
+        
+        try:
+            resp = requests.get(url, timeout=10, verify=False)
+            for header in self.security_headers:
+                if header in resp.headers:
+                    headers_present[header] = resp.headers[header]
+                else:
+                    headers_missing.append(header)
+        except Exception:
+            pass
                 
         return {
             "present": headers_present,
@@ -403,6 +432,9 @@ class VulnerabilityScanner:
         if url.startswith("https://"):
             try:
                 hostname = urlparse(url).netloc
+                if ":" in hostname:
+                    hostname = hostname.split(":")[0]
+                
                 ctx = ssl.create_default_context()
                 with ctx.wrap_socket(socket.socket(), server_hostname=hostname) as s:
                     s.settimeout(5)
@@ -434,15 +466,15 @@ class VulnerabilityScanner:
         summary_parts.append(f"Found {total} potential vulnerabilities:")
         
         if breakdown["critical"] > 0:
-            summary_parts.append(f"🔴 {breakdown['critical']} Critical")
+            summary_parts.append(f"CRITICAL: {breakdown['critical']}")
         if breakdown["high"] > 0:
-            summary_parts.append(f"🟠 {breakdown['high']} High")
+            summary_parts.append(f"HIGH: {breakdown['high']}")
         if breakdown["medium"] > 0:
-            summary_parts.append(f"🟡 {breakdown['medium']} Medium")
+            summary_parts.append(f"MEDIUM: {breakdown['medium']}")
         if breakdown["low"] > 0:
-            summary_parts.append(f"🔵 {breakdown['low']} Low")
+            summary_parts.append(f"LOW: {breakdown['low']}")
         if breakdown["info"] > 0:
-            summary_parts.append(f"⚪ {breakdown['info']} Informational")
+            summary_parts.append(f"INFO: {breakdown['info']}")
             
         return " | ".join(summary_parts)
 
