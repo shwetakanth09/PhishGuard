@@ -1,43 +1,72 @@
 <div align="center">
 
-<!-- Animated Logo -->
-<img src="https://img.shields.io/badge/🛡️-CyberShield-00D4FF?style=for-the-badge&logo=shield&logoColor=white" alt="CyberShield"/>
+<!-- Shield Logo -->
+<img src="https://img.shields.io/badge/🛡️_CyberShield-Premium-00D4FF?style=for-the-badge&logo=shield&logoColor=white&labelColor=0a0e17" alt="CyberShield"/>
+
+<br/>
 
 # 🛡️ CyberShield
 
 <!-- Typing Animation SVG -->
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&duration=3000&pause=1000&color=00D4FF&center=true&vCenter=true&multiline=true&repeat=true&width=800&height=120&lines=AI-Powered+Cybersecurity+Toolkit;Phishing+Detection+🔒;Vulnerability+Scanner+🔍;Cross-Platform+Support+🌐;Protect+Your+Digital+World+🛡️" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=26&duration=3500&pause=800&color=00D4FF&center=true&vCenter=true&multiline=true&repeat=true&width=850&height=130&lines=AI-Powered+Cybersecurity+Toolkit;Phishing+Detection+🔒;Vulnerability+Scanner+🔍;Cross-Platform+Support+🌐;Protect+Your+Digital+World+🛡️" alt="Typing SVG" />
 
 <br/>
 
-<!-- Animated Badges -->
-![Version](https://img.shields.io/badge/Version-1.0.0-00D4FF?style=for-the-badge&logo=semver&logoColor=white&animation=slight)
-![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white&animation=slight)
-![License](https://img.shields.io/badge/License-MIT-00FF88?style=for-the-badge&logo=osi&logoColor=white&animation=slight)
-![Status](https://img.shields.io/badge/Status-Production-brightgreen?style=for-the-badge&logo=checkmarx&logoColor=white&animation=slight)
+<!-- Animated Wave Divider -->
+<img src="https://user-images.githubusercontent.com/73097560/115834477-dbab4500-a447-11eb-908a-139a6edaec5c.gif" width="100%"/>
+
+<br/>
+
+<!-- Version Badge -->
+![Version](https://img.shields.io/badge/Version-1.0.0-00D4FF?style=for-the-badge&logo=semver&logoColor=white&labelColor=0a0e17)
+
+<!-- Python Badge -->
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white&labelColor=0a0e17)
+
+<!-- License Badge -->
+![License](https://img.shields.io/badge/License-MIT-00FF88?style=for-the-badge&logo=osi&logoColor=white&labelColor=0a0e17)
+
+<!-- Status Badge -->
+![Status](https://img.shields.io/badge/Status-Production-brightgreen?style=for-the-badge&logo=checkmarx&logoColor=white&labelColor=0a0e17)
 
 <br/>
 
 **A comprehensive security toolkit combining phishing detection and vulnerability scanning capabilities.**
 
-<!-- Platform Badges -->
-![Linux](https://img.shields.io/badge/Linux-Kali-557C94?style=for-the-badge&logo=linux&logoColor=white&animation=slight)
-![macOS](https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white&animation=slight)
-![Windows](https://img.shields.io/badge/Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white&animation=slight)
+<br/>
 
-<!-- Social Links -->
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white&animation=slight)](https://github.com/shwetakanth09/PhishGuard)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&animation=slight)](https://linkedin.com/in/aditya-sharma90)
-[![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white&animation=slight)](https://adii-sharma.vercel.app/)
+<!-- Platform Badges with Animation -->
+![Linux](https://img.shields.io/badge/Linux-Kali-557C94?style=for-the-badge&logo=linux&logoColor=white&labelColor=0a0e17&animation=slight)
+![macOS](https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white&labelColor=0a0e17&animation=slight)
+![Windows](https://img.shields.io/badge/Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white&labelColor=0a0e17&animation=slight)
 
-<!-- Animated Divider -->
+<br/>
+
+<!-- Social Links with Animation -->
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white&labelColor=0a0e17&animation=slight)](https://github.com/shwetakanth09/PhishGuard)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&labelColor=0a0e17&animation=slight)](https://linkedin.com/in/aditya-sharma90)
+[![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white&labelColor=0a0e17&animation=slight)](https://adii-sharma.vercel.app/)
+
+<br/>
+
+<!-- Contribution Snake Animation -->
 <img src="https://raw.githubusercontent.com/Platane/snk/output/github-contribution-grid-snake-dark.svg" width="100%"/>
 
 </div>
 
+<br/>
+
 ---
 
+<div align="center">
+
 ## 📋 Table of Contents
+
+</div>
+
+<table>
+<tr>
+<td width="50%">
 
 > *Navigate through our comprehensive documentation*
 
@@ -47,19 +76,60 @@
 | 🖥️ [Platform Support](#-platform-support) | Supported operating systems |
 | 🚀 [Installation](#-installation) | Setup instructions for all platforms |
 | 💡 [Usage](#-usage) | How to use CyberShield |
+
+</td>
+<td width="50%">
+
+> *Explore advanced documentation*
+
+| Section | Description |
+|---------|-------------|
 | 🖥️ [Web Dashboard](#-web-dashboard) | Browser-based interface |
 | 📡 [API Reference](#-api-reference) | REST API documentation |
 | 🏗️ [Architecture](#-architecture) | Project structure |
 | 📸 [Examples](#-examples) | Sample outputs and demos |
-| 🤝 [Contributing](#-contributing) | How to contribute |
-| 📄 [License](#-license) | Legal information |
-| 👨‍💻 [Author](#-author) | Developer information |
+
+</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<td width="33%">
+
+> *Join our community*
+
+| Section |
+|---------|
+| 🤝 [Contributing](#-contributing) |
+
+</td>
+<td width="33%">
+
+> *Legal information*
+
+| Section |
+|---------|
+| 📄 [License](#-license) |
+
+</td>
+<td width="33%">
+
+> *Meet the developer*
+
+| Section |
+|---------|
+| 👨‍💻 [Author](#-author) |
+
+</td>
+</tr>
+</table>
 
 ---
 
-## ✨ Features
-
 <div align="center">
+
+## ✨ Features
 
 > *Powerful features for comprehensive security analysis*
 
@@ -71,7 +141,8 @@
 <tr>
 <td width="50%">
 
-![URL Analysis](https://img.shields.io/badge/URL_Analysis-00D4FF?style=for-the-badge)
+![URL Analysis](https://img.shields.io/badge/URL_Analysis-00D4FF?style=for-the-badge&animation=slight)
+
 - **URL Structure Analysis** - Detects suspicious patterns in URLs
 - **Domain Reputation Check** - Identifies risky TLDs and domain characteristics
 - **SSL Certificate Validation** - Verifies HTTPS implementation
@@ -79,7 +150,8 @@
 </td>
 <td width="50%">
 
-![Advanced Detection](https://img.shields.io/badge/Advanced_Detection-FF00FF?style=for-the-badge)
+![Advanced Detection](https://img.shields.io/badge/Advanced_Detection-FF00FF?style=for-the-badge&animation=slight)
+
 - **Keyword Detection** - Flags phishing-related keywords
 - **Redirect Detection** - Identifies suspicious redirects
 - **Homograph Attack Detection** - Detects Unicode character attacks
@@ -88,7 +160,11 @@
 </tr>
 </table>
 
-![Heuristic Scoring](https://img.shields.io/badge/🧠_Heuristic_Scoring-AI_Powered-00FF88?style=for-the-badge)
+<div align="center">
+
+![Heuristic Scoring](https://img.shields.io/badge/🧠_Heuristic_Scoring-AI_Powered-00FF88?style=for-the-badge&animation=slight)
+
+</div>
 
 ---
 
@@ -98,7 +174,8 @@
 <tr>
 <td width="50%">
 
-![Web Security](https://img.shields.io/badge/Web_Security-FF4444?style=for-the-badge)
+![Web Security](https://img.shields.io/badge/Web_Security-FF4444?style=for-the-badge&animation=slight)
+
 - **XSS Detection** - Tests for Cross-Site Scripting vulnerabilities
 - **SQL Injection Testing** - Identifies SQL injection points
 - **Security Headers Audit** - Validates security header implementation
@@ -106,7 +183,8 @@
 </td>
 <td width="50%">
 
-![Infrastructure](https://img.shields.io/badge/Infrastructure-FFD700?style=for-the-badge)
+![Infrastructure](https://img.shields.io/badge/Infrastructure-FFD700?style=for-the-badge&animation=slight)
+
 - **SSL/TLS Analysis** - Checks certificate validity and configuration
 - **Information Disclosure** - Detects exposed sensitive data
 - **CORS Misconfiguration** - Identifies cross-origin issues
@@ -115,7 +193,11 @@
 </tr>
 </table>
 
-![File Detection](https://img.shields.io/badge/📁_Sensitive_File_Detection-Protection-9B59B6?style=for-the-badge)
+<div align="center">
+
+![File Detection](https://img.shields.io/badge/📁_Sensitive_File_Detection-Protection-9B59B6?style=for-the-badge&animation=slight)
+
+</div>
 
 ---
 
@@ -125,19 +207,22 @@
 <tr>
 <td width="33%">
 
-![UI](https://img.shields.io/badge/Modern_UI-Dark_Mode-1a1a2e?style=for-the-badge)
+![UI](https://img.shields.io/badge/Modern_UI-Dark_Mode-1a1a2e?style=for-the-badge&animation=slight)
+
 **Sleek dark mode interface**
 
 </td>
 <td width="33%">
 
-![Real-time](https://img.shields.io/badge/Real_time_Scanning-Instant-00ff00?style=for-the-badge)
+![Real-time](https://img.shields.io/badge/Real_time_Scanning-Instant-00ff00?style=for-the-badge&animation=slight)
+
 **Instant results with animations**
 
 </td>
 <td width="33%">
 
-![Reports](https://img.shields.io/badge/Visual_Reports-Charts-00d4ff?style=for-the-badge)
+![Reports](https://img.shields.io/badge/Visual_Reports-Charts-00d4ff?style=for-the-badge&animation=slight)
+
 **Charts and graphs**
 
 </td>
@@ -148,16 +233,20 @@
 
 ### 💻 CLI Interface
 
-![Rich Output](https://img.shields.io/badge/Rich_Terminal_Output-Beautiful-ff6b6b?style=for-the-badge)
-![Multiple Modes](https://img.shields.io/badge/Multiple_Scan_Modes-Flexible-4ecdc4?style=for-the-badge)
-![Batch Processing](https://img.shields.io/badge/Batch_Processing-Powerful-45b7d1?style=for-the-badge)
-![Cross Platform](https://img.shields.io/badge/Cross_Platform-Universal-96ceb4?style=for-the-badge)
+<div align="center">
+
+![Rich Output](https://img.shields.io/badge/Rich_Terminal_Output-Beautiful-ff6b6b?style=for-the-badge&animation=slight)
+![Multiple Modes](https://img.shields.io/badge/Multiple_Scan_Modes-Flexible-4ecdc4?style=for-the-badge&animation=slight)
+![Batch Processing](https://img.shields.io/badge/Batch_Processing-Powerful-45b7d1?style=for-the-badge&animation=slight)
+![Cross Platform](https://img.shields.io/badge/Cross_Platform-Universal-96ceb4?style=for-the-badge&animation=slight)
+
+</div>
 
 ---
 
-## 🖥️ Platform Support
-
 <div align="center">
+
+## 🖥️ Platform Support
 
 > *Works seamlessly across all major operating systems*
 
@@ -208,9 +297,9 @@
 
 ---
 
-## 🚀 Installation
-
 <div align="center">
+
+## 🚀 Installation
 
 > *Get started in minutes with our easy installation process*
 
@@ -218,8 +307,12 @@
 
 ### Prerequisites
 
-![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![pip](https://img.shields.io/badge/pip-Package_Manager-FF6B35?style=for-the-badge&logo=pypi&logoColor=white)
+<div align="center">
+
+![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white&animation=slight)
+![pip](https://img.shields.io/badge/pip-Package_Manager-FF6B35?style=for-the-badge&logo=pypi&logoColor=white&animation=slight)
+
+</div>
 
 ---
 
@@ -346,9 +439,9 @@ docker run -it cybershield full https://example.com
 
 ---
 
-## 💡 Usage
-
 <div align="center">
+
+## 💡 Usage
 
 > *Multiple ways to use CyberShield*
 
@@ -447,9 +540,9 @@ for result in results:
 
 ---
 
-## 🖥️ Web Dashboard
-
 <div align="center">
+
+## 🖥️ Web Dashboard
 
 > *Beautiful browser-based interface for visual scanning*
 
@@ -469,34 +562,34 @@ Then open your browser and navigate to `http://localhost:5000`
 <tr>
 <td width="33%">
 
-![Target Input](https://img.shields.io/badge/🎯_Target_Input-Enter_URL-00D4FF?style=for-the-badge)
+![Target Input](https://img.shields.io/badge/🎯_Target_Input-Enter_URL-00D4FF?style=for-the-badge&animation=slight)
 
 </td>
 <td width="33%">
 
-![Risk Meter](https://img.shields.io/badge/📊_Risk_Meter-Visual-FF4444?style=for-the-badge)
+![Risk Meter](https://img.shields.io/badge/📊_Risk_Meter-Visual-FF4444?style=for-the-badge&animation=slight)
 
 </td>
 <td width="33%">
 
-![Findings](https://img.shields.io/badge/🔍_Detailed_Findings-Complete-00FF88?style=for-the-badge)
+![Findings](https://img.shields.io/badge/🔍_Detailed_Findings-Complete-00FF88?style=for-the-badge&animation=slight)
 
 </td>
 </tr>
 <tr>
 <td width="33%">
 
-![Statistics](https://img.shields.io/badge/📈_Statistics-Trends-FFD700?style=for-the-badge)
+![Statistics](https://img.shields.io/badge/📈_Statistics-Trends-FFD700?style=for-the-badge&animation=slight)
 
 </td>
 <td width="33%">
 
-![Dark Mode](https://img.shields.io/badge/🌙_Dark_Mode-Easy_Eyes-9B59B6?style=for-the-badge)
+![Dark Mode](https://img.shields.io/badge/🌙_Dark_Mode-Easy_Eyes-9B59B6?style=for-the-badge&animation=slight)
 
 </td>
 <td width="33%">
 
-![Export](https://img.shields.io/badge/💾_Export_Results-JSON-FF6B35?style=for-the-badge)
+![Export](https://img.shields.io/badge/💾_Export_Results-JSON-FF6B35?style=for-the-badge&animation=slight)
 
 </td>
 </tr>
@@ -504,9 +597,9 @@ Then open your browser and navigate to `http://localhost:5000`
 
 ---
 
-## 📡 API Reference
-
 <div align="center">
+
+## 📡 API Reference
 
 > *RESTful API for integration with other tools*
 
@@ -557,9 +650,9 @@ curl -X POST http://localhost:5000/scan/full \
 
 ---
 
-## 🏗️ Architecture
-
 <div align="center">
+
+## 🏗️ Architecture
 
 > *Well-organized project structure*
 
@@ -590,9 +683,9 @@ cybershield/
 
 ---
 
-## 📸 Examples
+<div align="center">
 
-<div align="center>
+## 📸 Examples
 
 > *See CyberShield in action*
 
@@ -694,9 +787,9 @@ All dependencies satisfied!
 
 ---
 
-## 🤝 Contributing
-
 <div align="center">
+
+## 🤝 Contributing
 
 > *Contributions make the open source community an amazing place to learn, inspire, and create.*
 
@@ -708,22 +801,22 @@ All dependencies satisfied!
 <tr>
 <td width="25%">
 
-![Step 1](https://img.shields.io/badge/1️⃣_Fork_Repository-00D4FF?style=for-the-badge)
+![Step 1](https://img.shields.io/badge/1️⃣_Fork_Repository-00D4FF?style=for-the-badge&animation=slight)
 
 </td>
 <td width="25%">
 
-![Step 2](https://img.shields.io/badge/2️⃣_Create_Branch-FF00FF?style=for-the-badge)
+![Step 2](https://img.shields.io/badge/2️⃣_Create_Branch-FF00FF?style=for-the-badge&animation=slight)
 
 </td>
 <td width="25%">
 
-![Step 3](https://img.shields.io/badge/3️⃣_Commit_Changes-00FF88?style=for-the-badge)
+![Step 3](https://img.shields.io/badge/3️⃣_Commit_Changes-00FF88?style=for-the-badge&animation=slight)
 
 </td>
 <td width="25%">
 
-![Step 4](https://img.shields.io/badge/4️⃣_Pull_Request-FFD700?style=for-the-badge)
+![Step 4](https://img.shields.io/badge/4️⃣_Pull_Request-FFD700?style=for-the-badge&animation=slight)
 
 </td>
 </tr>
@@ -737,11 +830,15 @@ All dependencies satisfied!
 
 ---
 
+<div align="center">
+
 ## 📄 License
+
+</div>
 
 <div align="center">
 
-![License](https://img.shields.io/badge/License-MIT-00FF88?style=for-the-badge&logo=osi&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-00FF88?style=for-the-badge&logo=osi&logoColor=white&animation=slight)
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
@@ -749,32 +846,36 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 👨‍💻 Author
-
 <div align="center">
+
+## 👨‍💻 Author
 
 **Aditya Sharma**
 
-![Portfolio](https://img.shields.io/badge/🌐_Portfolio-Visit-00D4FF?style=for-the-badge&link=https://adii-sharma.vercel.app/)
-![LinkedIn](https://img.shields.io/badge/💼_LinkedIn-Connect-0077B5?style=for-the-badge&link=https://linkedin.com/in/aditya-sharma90)
-![GitHub](https://img.shields.io/badge/🐙_GitHub-Follow-181717?style=for-the-badge&link=https://github.com/aditya226-sharma)
-![Email](https://img.shields.io/badge/📧_Email-Contact-D14836?style=for-the-badge&link=mailto:adityaiit687@gmail.com)
+![Portfolio](https://img.shields.io/badge/🌐_Portfolio-Visit-00D4FF?style=for-the-badge&link=https://adii-sharma.vercel.app/&animation=slight)
+![LinkedIn](https://img.shields.io/badge/💼_LinkedIn-Connect-0077B5?style=for-the-badge&link=https://linkedin.com/in/aditya-sharma90&animation=slight)
+![GitHub](https://img.shields.io/badge/🐙_GitHub-Follow-181717?style=for-the-badge&link=https://github.com/aditya226-sharma&animation=slight)
+![Email](https://img.shields.io/badge/📧_Email-Contact-D14836?style=for-the-badge&link=mailto:adityaiit687@gmail.com&animation=slight)
 
 </div>
 
 ---
 
-## 🙏 Acknowledgments
-
 <div align="center">
+
+## 🙏 Acknowledgments
 
 > *Thank you to everyone who made this project possible*
 
 </div>
 
-![Built with Love](https://img.shields.io/badge/Built_with-❤️-FF6B6B?style=for-the-badge)
-![Cybersecurity](https://img.shields.io/badge/Part_of-Cybersecurity_Journey-00D4FF?style=for-the-badge)
-![Open Source](https://img.shields.io/badge/Designed_for-Open_Source-00FF88?style=for-the-badge)
+<div align="center">
+
+![Built with Love](https://img.shields.io/badge/Built_with-❤️-FF6B6B?style=for-the-badge&animation=slight)
+![Cybersecurity](https://img.shields.io/badge/Part_of-Cybersecurity_Journey-00D4FF?style=for-the-badge&animation=slight)
+![Open Source](https://img.shields.io/badge/Designed_for-Open_Source-00FF88?style=for-the-badge&animation=slight)
+
+</div>
 
 ---
 
@@ -782,9 +883,24 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📊 GitHub Stats
 
+</div>
+
+<div align="center">
+
+<table>
+<tr>
+<td>
+
 ![GitHub Stats](https://github-readme-stats.vercel.app/api?username=shwetakanth09&show_icons=true&theme=radical&hide_border=true)
 
+</td>
+<td>
+
 ![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=shwetakanth09&layout=compact&theme=radical&hide_border=true)
+
+</td>
+</tr>
+</table>
 
 </div>
 
@@ -792,16 +908,28 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**If you found this tool helpful, please give it a ⭐ on GitHub!**
+## ⭐ Star History
 
-![Star](https://img.shields.io/github/stars/shwetakanth09/PhishGuard?style=social)
+[![Star History Chart](https://api.star-history.com/svg?repos=shwetakanth09/PhishGuard&type=Date)](https://star-history.com/#shwetakanth09/PhishGuard&Date)
 
-![Fork](https://img.shields.io/github/forks/shwetakanth09/PhishGuard?style=social)
-
-![Watch](https://img.shields.io/github/watchers/shwetakanth09/PhishGuard?style=social)
+</div>
 
 ---
 
-![Footer](https://img.shields.io/badge/Made_With-❤️_By_Aditya_Sharma-00D4FF?style=for-the-badge)
+<div align="center">
+
+### 🔥 Support the Project
+
+![Star](https://img.shields.io/github/stars/shwetakanth09/PhishGuard?style=social&animation=slight)
+![Fork](https://img.shields.io/github/forks/shwetakanth09/PhishGuard?style=social&animation=slight)
+![Watch](https://img.shields.io/github/watchers/shwetakanth09/PhishGuard?style=social&animation=slight)
+
+</div>
+
+---
+
+<div align="center">
+
+![Footer](https://img.shields.io/badge/Made_With-❤️_By_Aditya_Sharma-00D4FF?style=for-the-badge&animation=slight)
 
 </div>
